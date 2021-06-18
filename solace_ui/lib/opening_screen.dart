@@ -8,7 +8,7 @@ class OpeningScreen extends StatelessWidget {
     Widget build(BuildContext context) {
         return Container(
             margin: EdgeInsets.fromLTRB(20, 50, 20, 50),
-
+            color: Colors.white,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
