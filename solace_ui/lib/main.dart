@@ -14,7 +14,7 @@ void main() {
   var sagaMiddleware = createSagaMiddleware();
   final store = Store<AppState>(
     appReducer,
-    initialState: AppState(placeholder: 0),
+    initialState: AppState(),
     middleware: [applyMiddleware(sagaMiddleware)],
   );
 
@@ -33,22 +33,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-        elevatedButtonTheme: ElevatedButtonThemeData (
-          style: ElevatedButton.styleFrom(
-            primary: Colors.white,
-            minimumSize: Size(250, 51),
-            shape: RoundedRectangleBorder(
+    return StoreProvider(
+      store: store,
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.white,
+              minimumSize: Size(250, 51),
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
                 side: BorderSide(color: Colors.grey),
+              ),
             ),
           ),
         ),
+        home: MyHomePage(title: 'Solace'),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

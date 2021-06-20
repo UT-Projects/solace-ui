@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:solace_ui/redux/actions/actions.dart';
+
+import 'redux/app_state.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -10,7 +14,7 @@ class LoginScreen extends StatelessWidget {
           color: Colors .black,
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Create an Account'),
+        title: Text('Log In'),
       ),
       body: Container(
         margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -27,9 +31,11 @@ class LoginScreen extends StatelessWidget {
                   size: 25,
                 ),
               ),
+              onChanged: (email) => StoreProvider.of<AppState>(context).dispatch(UpdateLoginEmailAction(email)),
             ),
             Divider(),
             TextField(
+              obscureText: true,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 labelText: 'Password',
@@ -39,6 +45,7 @@ class LoginScreen extends StatelessWidget {
                   size: 25,
                 ),
               ),
+              onChanged: (password) => StoreProvider.of<AppState>(context).dispatch(UpdateLoginPasswordAction(password)),
             ),
             Divider(),
             SizedBox(height: 20,),

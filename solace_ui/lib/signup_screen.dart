@@ -1,4 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:solace_ui/redux/actions/actions.dart';
+import 'package:solace_ui/redux/app_state.dart';
+import 'package:intl/intl.dart';
 
 class SignupScreen extends StatelessWidget {
   @override
@@ -7,7 +12,7 @@ class SignupScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: BackButton(
-          color: Colors .black,
+          color: Colors.black,
           onPressed: () => Navigator.pop(context),
         ),
         title: Text('Create an Account'),
@@ -27,9 +32,11 @@ class SignupScreen extends StatelessWidget {
                   size: 25,
                 ),
               ),
+              onChanged: (email) => StoreProvider.of<AppState>(context).dispatch(UpdateSignupEmailAction(email)),
             ),
             Divider(),
             TextField(
+              obscureText: true,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 labelText: 'Password',
@@ -39,32 +46,86 @@ class SignupScreen extends StatelessWidget {
                   size: 25,
                 ),
               ),
+              onChanged: (password) => StoreProvider.of<AppState>(context).dispatch(UpdateSignupPasswordAction(password)),
             ),
             Divider(),
             TextField(
               decoration: InputDecoration(
                 border: InputBorder.none,
                 labelText: 'First Name',
+                prefixIcon: Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 12.0),
+                ),
               ),
+              onChanged: (firstName) => StoreProvider.of<AppState>(context).dispatch(UpdateSignupFNameAction(firstName)),
             ),
             Divider(),
             TextField(
               decoration: InputDecoration(
                 border: InputBorder.none,
                 labelText: 'Last Name',
-              ),
-            ),
-            SizedBox(height: 20,),
-            ElevatedButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SignupScreen())
+                prefixIcon: Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 12.0),
                 ),
-                child: Text('Submit'),
+              ),
+              onChanged: (lastName) => StoreProvider.of<AppState>(context).dispatch(UpdateSignupLNameAction(lastName)),
+            ),
+            Divider(),
+            BirthdateField(),
+            Divider(),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SignupScreen())),
+              child: Text('Submit'),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class BirthdateField extends StatefulWidget {
+  BirthdateField({Key key}) : super(key: key);
+
+  @override
+  _BirthdateFieldState createState() => _BirthdateFieldState();
+}
+
+class _BirthdateFieldState extends State<BirthdateField> {
+  final dateController = TextEditingController();
+
+  @override
+  void dispose() {
+    dateController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+        readOnly: true,
+        controller: dateController,
+        decoration: InputDecoration(
+          labelText: 'Birthdate',
+          border: InputBorder.none,
+          prefixIcon: Padding(
+            padding: const EdgeInsetsDirectional.only(start: 12.0),
+          ),
+        ),
+        onTap: () async {
+          var date = await showDatePicker(
+              context: context,
+              initialDate: DateTime(1970),
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now());
+          final DateFormat formatter = DateFormat('MMM d, y');
+          dateController.text = formatter.format(date);
+          StoreProvider.of<AppState>(context)
+              .dispatch(UpdateSignupBirthdateAction(date));
+        });
   }
 }
