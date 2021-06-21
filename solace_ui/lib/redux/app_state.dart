@@ -1,11 +1,17 @@
 class AppState {
-  LoginInfo loginInfo;
-  SignupInfo signupInfo;
+  final LoginInfo loginInfo;
+  final SignupInfo signupInfo;
+
+  factory AppState.initial() {
+    return AppState(
+      loginInfo: LoginInfo.initial(),
+      signupInfo: SignupInfo.initial(),
+    );
+  }
 
   AppState({
-    this.loginInfo = const LoginInfo(email: "", password: ""),
-    this.signupInfo =
-        const SignupInfo(email: "", password: "", firstName: "", lastName: ""),
+    required this.loginInfo,
+    required this.signupInfo,
   });
 }
 
@@ -13,9 +19,16 @@ class LoginInfo {
   final String email;
   final String password;
 
+  factory LoginInfo.initial() {
+    return LoginInfo(
+      email: "",
+      password: "",
+    );
+  }
+
   const LoginInfo({
-    this.email,
-    this.password,
+    required this.email,
+    required this.password,
   });
 }
 
@@ -25,12 +38,28 @@ class SignupInfo {
   final String firstName;
   final String lastName;
   final DateTime birthdate;
+  final String sex;
+  final String ethnicity;
+
+  factory SignupInfo.initial() {
+    return SignupInfo(
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      birthdate: DateTime(1970),
+      sex: "Prefer not to answer",
+      ethnicity: "Prefer not to answer",
+    );
+  }
 
   const SignupInfo({
-    this.email,
-    this.password,
-    this.firstName,
-    this.lastName,
-    this.birthdate,
+    required this.email,
+    required this.password,
+    required this.firstName,
+    required this.lastName,
+    required this.birthdate,
+    required this.sex,
+    required this.ethnicity,
   });
 }

@@ -23,6 +23,8 @@ SignupInfo signupInfoReducer(SignupInfo state, action) {
     firstName: signupFNameReducer(state.firstName, action),
     lastName: signupLNameReducer(state.lastName, action),
     birthdate: signupBirthdateReducer(state.birthdate, action),
+    sex: signupSexReducer(state.sex, action),
+    ethnicity: signupEthnicityReducer(state.ethnicity, action),
   );
 }
 
@@ -85,4 +87,21 @@ final signupBirthdateReducer = combineReducers<DateTime>([
 DateTime _updateSignupBirthdateReducer(
     DateTime state, UpdateSignupBirthdateAction action) {
   return action.birthdate;
+}
+
+final signupSexReducer = combineReducers<String>(
+    [TypedReducer<String, UpdateSignupSexAction>(_updateSignupSexReducer)]);
+
+String _updateSignupSexReducer(String state, UpdateSignupSexAction action) {
+  return action.sex;
+}
+
+final signupEthnicityReducer = combineReducers<String>([
+  TypedReducer<String, UpdateSignupEthnicityAction>(
+      _updateSignupEthnicityReducer)
+]);
+
+String _updateSignupEthnicityReducer(
+    String state, UpdateSignupEthnicityAction action) {
+  return action.ethnicity;
 }

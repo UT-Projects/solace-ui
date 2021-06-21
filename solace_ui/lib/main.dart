@@ -14,7 +14,7 @@ void main() {
   var sagaMiddleware = createSagaMiddleware();
   final store = Store<AppState>(
     appReducer,
-    initialState: AppState(),
+    initialState: AppState.initial(),
     middleware: [applyMiddleware(sagaMiddleware)],
   );
 
@@ -27,14 +27,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final Store<AppState> store;
+  final Store<AppState>? store;
 
-  MyApp({Key key, this.store}) : super(key: key);
+  MyApp({Key? key, this.store}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreProvider(
-      store: store,
+      store: store!,
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -57,9 +57,9 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {

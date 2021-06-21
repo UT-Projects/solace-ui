@@ -41,3 +41,15 @@ class UpdateSignupBirthdateAction {
 
   UpdateSignupBirthdateAction(this.birthdate);
 }
+
+class UpdateSignupSexAction {
+  final String sex;
+
+  UpdateSignupSexAction(this.sex);
+}
+
+class UpdateSignupEthnicityAction {
+  final String ethnicity;
+
+  UpdateSignupEthnicityAction(this.ethnicity);
+}

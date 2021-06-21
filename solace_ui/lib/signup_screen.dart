@@ -1,6 +1,9 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux_saga/redux_saga.dart';
 import 'package:solace_ui/redux/actions/actions.dart';
 import 'package:solace_ui/redux/app_state.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +35,8 @@ class SignupScreen extends StatelessWidget {
                   size: 25,
                 ),
               ),
-              onChanged: (email) => StoreProvider.of<AppState>(context).dispatch(UpdateSignupEmailAction(email)),
+              onChanged: (email) => StoreProvider.of<AppState>(context)
+                  .dispatch(UpdateSignupEmailAction(email)),
             ),
             Divider(),
             TextField(
@@ -46,7 +50,8 @@ class SignupScreen extends StatelessWidget {
                   size: 25,
                 ),
               ),
-              onChanged: (password) => StoreProvider.of<AppState>(context).dispatch(UpdateSignupPasswordAction(password)),
+              onChanged: (password) => StoreProvider.of<AppState>(context)
+                  .dispatch(UpdateSignupPasswordAction(password)),
             ),
             Divider(),
             TextField(
@@ -57,7 +62,8 @@ class SignupScreen extends StatelessWidget {
                   padding: const EdgeInsetsDirectional.only(start: 12.0),
                 ),
               ),
-              onChanged: (firstName) => StoreProvider.of<AppState>(context).dispatch(UpdateSignupFNameAction(firstName)),
+              onChanged: (firstName) => StoreProvider.of<AppState>(context)
+                  .dispatch(UpdateSignupFNameAction(firstName)),
             ),
             Divider(),
             TextField(
@@ -68,10 +74,15 @@ class SignupScreen extends StatelessWidget {
                   padding: const EdgeInsetsDirectional.only(start: 12.0),
                 ),
               ),
-              onChanged: (lastName) => StoreProvider.of<AppState>(context).dispatch(UpdateSignupLNameAction(lastName)),
+              onChanged: (lastName) => StoreProvider.of<AppState>(context)
+                  .dispatch(UpdateSignupLNameAction(lastName)),
             ),
             Divider(),
             BirthdateField(),
+            Divider(),
+            SelectSexDropdown(),
+            Divider(),
+            SelectEthnicityDropdown(),
             Divider(),
             SizedBox(
               height: 20,
@@ -89,7 +100,7 @@ class SignupScreen extends StatelessWidget {
 }
 
 class BirthdateField extends StatefulWidget {
-  BirthdateField({Key key}) : super(key: key);
+  BirthdateField({Key? key}) : super(key: key);
 
   @override
   _BirthdateFieldState createState() => _BirthdateFieldState();
@@ -122,10 +133,97 @@ class _BirthdateFieldState extends State<BirthdateField> {
               initialDate: DateTime(1970),
               firstDate: DateTime(1900),
               lastDate: DateTime.now());
-          final DateFormat formatter = DateFormat('MMM d, y');
-          dateController.text = formatter.format(date);
-          StoreProvider.of<AppState>(context)
-              .dispatch(UpdateSignupBirthdateAction(date));
+          if (date != null) {
+            final DateFormat formatter = DateFormat('MMM d, y');
+            dateController.text = formatter.format(date);
+            StoreProvider.of<AppState>(context)
+                .dispatch(UpdateSignupBirthdateAction(date));
+          }
         });
+  }
+}
+
+class SelectSexDropdown extends StatefulWidget {
+  const SelectSexDropdown({Key? key}) : super(key: key);
+
+  @override
+  State<SelectSexDropdown> createState() => _SelectSexDropdownState();
+}
+
+class _SelectSexDropdownState extends State<SelectSexDropdown> {
+  String _currentSex = "Prefer not to answer";
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField(
+        decoration: InputDecoration(
+          labelText: 'Sex',
+          border: InputBorder.none,
+          prefixIcon: Padding(
+            padding: const EdgeInsetsDirectional.only(start: 12.0),
+          ),
+        ),
+        value: _currentSex,
+        onChanged: (String? newValue) {
+          setState(() {
+            _currentSex = newValue!;
+          });
+          StoreProvider.of<AppState>(context)
+              .dispatch(UpdateSignupSexAction(newValue!));
+        },
+        items: <String>['Male', 'Female', 'Prefer not to answer']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList());
+  }
+}
+
+class SelectEthnicityDropdown extends StatefulWidget {
+  const SelectEthnicityDropdown({Key? key}) : super(key: key);
+
+  @override
+  State<SelectEthnicityDropdown> createState() =>
+      _SelectEthnicityDropdownState();
+}
+
+class _SelectEthnicityDropdownState extends State<SelectEthnicityDropdown> {
+  String _currentEthnicity = "Prefer not to answer";
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField(
+        decoration: InputDecoration(
+          labelText: 'Race/Ethnicity',
+          border: InputBorder.none,
+          prefixIcon: Padding(
+            padding: const EdgeInsetsDirectional.only(start: 12.0),
+          ),
+        ),
+        value: _currentEthnicity,
+        onChanged: (String? newValue) {
+          setState(() {
+            _currentEthnicity = newValue!;
+          });
+          StoreProvider.of<AppState>(context)
+              .dispatch(UpdateSignupEthnicityAction(newValue!));
+        },
+        items: <String>[
+          'American Indian or Alaskan Native',
+          'Asian',
+          'Black or African American',
+          'Hispanic or Latino',
+          'White',
+          'Native Hawaiian or Pacific Islander',
+          'Unsure',
+          'Prefer not to answer'
+        ].map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList());
   }
 }
