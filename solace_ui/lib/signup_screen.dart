@@ -1,4 +1,4 @@
-import 'dart:html';
+import "package:universal_html/html.dart" hide Navigator, Text;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,77 +22,79 @@ class SignupScreen extends StatelessWidget {
       ),
       body: Container(
         margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
-        child: Column(
-          children: [
-            Divider(),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: 'Email',
-                prefixIcon: Icon(
-                  Icons.email,
-                  color: Colors.black,
-                  size: 25,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Divider(),
+              TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: 'Email',
+                  prefixIcon: Icon(
+                    Icons.email,
+                    color: Colors.black,
+                    size: 25,
+                  ),
                 ),
+                onChanged: (email) => StoreProvider.of<AppState>(context)
+                    .dispatch(UpdateSignupEmailAction(email)),
               ),
-              onChanged: (email) => StoreProvider.of<AppState>(context)
-                  .dispatch(UpdateSignupEmailAction(email)),
-            ),
-            Divider(),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: 'Password',
-                prefixIcon: Icon(
-                  Icons.lock,
-                  color: Colors.black,
-                  size: 25,
+              Divider(),
+              TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: 'Password',
+                  prefixIcon: Icon(
+                    Icons.lock,
+                    color: Colors.black,
+                    size: 25,
+                  ),
                 ),
+                onChanged: (password) => StoreProvider.of<AppState>(context)
+                    .dispatch(UpdateSignupPasswordAction(password)),
               ),
-              onChanged: (password) => StoreProvider.of<AppState>(context)
-                  .dispatch(UpdateSignupPasswordAction(password)),
-            ),
-            Divider(),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: 'First Name',
-                prefixIcon: Padding(
-                  padding: const EdgeInsetsDirectional.only(start: 12.0),
+              Divider(),
+              TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: 'First Name',
+                  prefixIcon: Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 12.0),
+                  ),
                 ),
+                onChanged: (firstName) => StoreProvider.of<AppState>(context)
+                    .dispatch(UpdateSignupFNameAction(firstName)),
               ),
-              onChanged: (firstName) => StoreProvider.of<AppState>(context)
-                  .dispatch(UpdateSignupFNameAction(firstName)),
-            ),
-            Divider(),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: 'Last Name',
-                prefixIcon: Padding(
-                  padding: const EdgeInsetsDirectional.only(start: 12.0),
+              Divider(),
+              TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: 'Last Name',
+                  prefixIcon: Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 12.0),
+                  ),
                 ),
+                onChanged: (lastName) => StoreProvider.of<AppState>(context)
+                    .dispatch(UpdateSignupLNameAction(lastName)),
               ),
-              onChanged: (lastName) => StoreProvider.of<AppState>(context)
-                  .dispatch(UpdateSignupLNameAction(lastName)),
-            ),
-            Divider(),
-            BirthdateField(),
-            Divider(),
-            SelectSexDropdown(),
-            Divider(),
-            SelectEthnicityDropdown(),
-            Divider(),
-            SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignupScreen())),
-              child: Text('Submit'),
-            ),
-          ],
+              Divider(),
+              BirthdateField(),
+              Divider(),
+              SelectSexDropdown(),
+              Divider(),
+              SelectEthnicityDropdown(),
+              Divider(),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SignupScreen())),
+                child: Text('Submit'),
+              ),
+            ],
+          ),
         ),
       ),
     );
