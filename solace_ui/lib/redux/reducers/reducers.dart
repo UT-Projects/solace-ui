@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:solace_ui/main.dart';
+
 import '../actions/actions.dart';
 import '../app_state.dart';
 import 'package:redux/redux.dart';
@@ -6,6 +9,7 @@ AppState appReducer(AppState state, action) {
   return AppState(
     loginInfo: loginInfoReducer(state.loginInfo, action),
     signupInfo: signupInfoReducer(state.signupInfo, action),
+    userInfo: userInfoReducer(state.userInfo, action),
   );
 }
 
@@ -27,6 +31,30 @@ SignupInfo signupInfoReducer(SignupInfo state, action) {
     ethnicity: signupEthnicityReducer(state.ethnicity, action),
   );
 }
+
+final userInfoReducer = combineReducers<UserInfo> ([
+  TypedReducer<UserInfo, UpdateUserInfoSuccess>(
+      _updateUserInfoSuccessReducer),
+  TypedReducer<UserInfo, UpdateUserInfoFailure>(
+      _updateUserInfoFailureReducer),
+]);
+
+UserInfo _updateUserInfoSuccessReducer(UserInfo state, UpdateUserInfoSuccess action) {
+  state = new UserInfo(
+    email: action.info.email,
+    firstName: action.info.firstName,
+    lastName: action.info.lastName,
+    birthdate: action.info.birthdate,
+    sex: action.info.sex,
+    ethnicity: action.info.ethnicity,
+  );
+
+  return state;
+} // Update UserInfo state
+
+UserInfo _updateUserInfoFailureReducer(UserInfo state, UpdateUserInfoFailure action) {
+  return state;
+} // Display failure message
 
 final loginEmailReducer = combineReducers<String>([
   TypedReducer<String, UpdateLoginEmailAction>(_updateLoginEmailReducer),

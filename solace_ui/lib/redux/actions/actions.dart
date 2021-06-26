@@ -53,3 +53,32 @@ class UpdateSignupEthnicityAction {
 
   UpdateSignupEthnicityAction(this.ethnicity);
 }
+
+class CreateUserAction {
+  final String firstName;
+  final String lastName;
+  final String email;
+  final DateTime birthdate;
+  final String sex;
+
+  CreateUserAction({
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.birthdate,
+    required this.sex,
+  });
+}
+
+
+class UpdateUserInfoSuccess {
+  final UserInfo info;
+
+  UpdateUserInfoSuccess(this.info);
+}
+
+class UpdateUserInfoFailure {
+  final String message;
+
+  UpdateUserInfoFailure(this.message);
+}
