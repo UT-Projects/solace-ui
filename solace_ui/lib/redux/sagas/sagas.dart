@@ -4,10 +4,10 @@ import '../app_state.dart';
 import '../../api.dart' as api;
 
 mySaga() sync* {
-  yield TakeEvery(createUser, pattern: CreateUserAction);
+  yield TakeEvery(createPatient, pattern: CreateUserAction);
 }
 
-createUser({dynamic action}) sync* {
+createPatient({dynamic action}) sync* {
   yield Try(() sync* {
     var res = Result();
     yield Call(api.createPatient,
@@ -16,12 +16,13 @@ createUser({dynamic action}) sync* {
     var uuid = res.value;
     yield Put(UpdateUserInfoSuccess(
       UserInfo(
-          firstName: action.name,
-          lastName: action.name,
-          birthdate: action.birthdate,
-          email: action.email,
-          sex: action.sex,
-          ethnicity: ""),
+        uuid: uuid,
+        firstName: action.name,
+        lastName: action.name,
+        birthdate: action.birthdate,
+        email: action.email,
+        sex: action.sex,
+        ethnicity: ""),
     ));
   }, Catch: (e, s) sync* {
     yield Put(UpdateUserInfoFailure(e.message));
@@ -34,13 +35,14 @@ updatePatient({dynamic action}) sync* {
     yield Call(api.getPatientInfo, args: [action.uuid], result: info);
     var user = info.value;
     yield Put(UpdateUserInfoSuccess(
-        UserInfo(
-            firstName: user.name,
-            lastName: user.name,
-            birthdate: DateTime.fromMillisecondsSinceEpoch(user.birthdate),
-            email: user.email,
-            sex: action.sex,
-            ethnicity: "")));
+      UserInfo(
+        uuid: user.uuid,
+        firstName: user.name,
+        lastName: user.name,
+        birthdate: DateTime.fromMillisecondsSinceEpoch(user.birthdate),
+        email: user.email,
+        sex: action.sex,
+        ethnicity: "")));
   }, Catch: (e, s) sync* {
     yield Put(UpdateUserInfoFailure(e.message));
   });

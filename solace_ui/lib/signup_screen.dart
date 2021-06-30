@@ -89,8 +89,12 @@ class SignupScreen extends StatelessWidget {
                 height: 20,
               ),
               ElevatedButton(
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SignupScreen())),
+                onPressed: () => {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SignupScreen()))
+                },
                 child: Text('Submit'),
               ),
             ],

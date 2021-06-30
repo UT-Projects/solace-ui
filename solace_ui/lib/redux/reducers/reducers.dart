@@ -41,6 +41,7 @@ final userInfoReducer = combineReducers<UserInfo> ([
 
 UserInfo _updateUserInfoSuccessReducer(UserInfo state, UpdateUserInfoSuccess action) {
   state = new UserInfo(
+    uuid: action.info.uuid,
     email: action.info.email,
     firstName: action.info.firstName,
     lastName: action.info.lastName,

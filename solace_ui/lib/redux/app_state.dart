@@ -68,6 +68,7 @@ class SignupInfo {
 }
 
 class UserInfo {
+  final String uuid;
   final String email;
   final String firstName;
   final String lastName;
@@ -77,6 +78,7 @@ class UserInfo {
 
   factory UserInfo.initial() {
     return UserInfo(
+      uuid: "",
       email: "",
       firstName: "",
       lastName: "",
@@ -87,6 +89,7 @@ class UserInfo {
   }
 
   const UserInfo({
+    required this.uuid,
     required this.email,
     required this.firstName,
     required this.lastName,
