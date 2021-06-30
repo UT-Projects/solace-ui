@@ -11,7 +11,7 @@ createPatient({dynamic action}) sync* {
   yield Try(() sync* {
     var res = Result();
     yield Call(api.createPatient,
-        args: [action.name, action.birthdate, action.email, action.sex],
+        args: [action.firstName + action.lastName, action.birthdate, action.email, action.sex],
         result: res);
     var uuid = res.value;
     yield Put(UpdateUserInfoSuccess(
