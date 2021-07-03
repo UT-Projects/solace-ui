@@ -12,15 +12,21 @@ Future<PatientInfo> getPatientInfo(String uuid) async {
   }
 }
 
-Future<String> createPatient(String name, DateTime birthdate, String email, String sex) async {
+Future<String> createPatient(
+    String name, DateTime birthdate, String email, String sex) async {
   var uuid = Uuid();
   String randomUuid = uuid.v4(); // v4?
+  print(randomUuid);
+
   final response = await http.post(
-    Uri.parse("http:.//localhost:3000/createUser"),
-    body: jsonEncode(<String, String> {
-      'uuid': randomUuid, 
+    Uri.parse("http://localhost:3000/createUser"),
+    headers: <String, String>{
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'uuid': randomUuid,
       'name': name,
-      'birthdate': birthdate.millisecondsSinceEpoch.toString(),
+      'birthdate': birthdate.millisecondsSinceEpoch,
       'email': email,
       'sex': sex,
     }),
@@ -31,7 +37,6 @@ Future<String> createPatient(String name, DateTime birthdate, String email, Stri
   } else {
     throw Exception("Failed to create patient");
   }
-  
 }
 
 class PatientInfo {

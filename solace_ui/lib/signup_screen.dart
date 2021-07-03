@@ -8,7 +8,40 @@ import 'package:solace_ui/redux/actions/actions.dart';
 import 'package:solace_ui/redux/app_state.dart';
 import 'package:intl/intl.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
+  SignupScreen({Key? key}) : super(key: key);
+
+  @override
+  _SignupScreenState createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  String email = "";
+  String password = "";
+  String firstName = "";
+  String lastName = "";
+  DateTime birthdate = DateTime.now();
+  String sex = "Prefer Not to Answer";
+  String ethnicity = "Prefer Not to Answer";
+
+  updateBirthdate(DateTime date) {
+    setState(() {
+      birthdate = date;
+    });
+  }
+
+  updateSex(String newSex) {
+    setState(() {
+      sex = newSex;
+    });
+  }
+
+  updateEthnicity(String newEthnicity) {
+    setState(() {
+      ethnicity = newEthnicity;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +69,9 @@ class SignupScreen extends StatelessWidget {
                     size: 25,
                   ),
                 ),
-                onChanged: (email) => StoreProvider.of<AppState>(context)
-                    .dispatch(UpdateSignupEmailAction(email)),
+                onChanged: (String newEmail) => setState(() {
+                  email = newEmail;
+                }),
               ),
               Divider(),
               TextField(
@@ -51,8 +85,9 @@ class SignupScreen extends StatelessWidget {
                     size: 25,
                   ),
                 ),
-                onChanged: (password) => StoreProvider.of<AppState>(context)
-                    .dispatch(UpdateSignupPasswordAction(password)),
+                onChanged: (String newPass) => setState(() {
+                  password = newPass;
+                }),
               ),
               Divider(),
               TextField(
@@ -63,8 +98,9 @@ class SignupScreen extends StatelessWidget {
                     padding: const EdgeInsetsDirectional.only(start: 12.0),
                   ),
                 ),
-                onChanged: (firstName) => StoreProvider.of<AppState>(context)
-                    .dispatch(UpdateSignupFNameAction(firstName)),
+                onChanged: (String newFName) => setState(() {
+                  firstName = newFName;
+                }),
               ),
               Divider(),
               TextField(
@@ -75,25 +111,27 @@ class SignupScreen extends StatelessWidget {
                     padding: const EdgeInsetsDirectional.only(start: 12.0),
                   ),
                 ),
-                onChanged: (lastName) => StoreProvider.of<AppState>(context)
-                    .dispatch(UpdateSignupLNameAction(lastName)),
+                onChanged: (String newLName) => setState(() {
+                  lastName = newLName;
+                }),
               ),
               Divider(),
-              BirthdateField(),
+              BirthdateField(updateBirthdate: updateBirthdate),
               Divider(),
-              SelectSexDropdown(),
+              SelectSexDropdown(updateSex: updateSex),
               Divider(),
-              SelectEthnicityDropdown(),
+              SelectEthnicityDropdown(updateEthnicity: updateEthnicity),
               Divider(),
               SizedBox(
                 height: 20,
               ),
               ElevatedButton(
                 onPressed: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SignupScreen()))
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignupScreen())),
+                  StoreProvider.of<AppState>(context).dispatch(CreateUserAction(
+                    firstName: firstName, lastName: lastName, email: email, 
+                    birthdate: birthdate, sex: sex, ethnicity: ethnicity)),
                 },
                 child: Text('Submit'),
               ),
@@ -106,7 +144,8 @@ class SignupScreen extends StatelessWidget {
 }
 
 class BirthdateField extends StatefulWidget {
-  BirthdateField({Key? key}) : super(key: key);
+  final Function updateBirthdate;
+  BirthdateField({Key? key, required this.updateBirthdate}) : super(key: key);
 
   @override
   _BirthdateFieldState createState() => _BirthdateFieldState();
@@ -142,15 +181,16 @@ class _BirthdateFieldState extends State<BirthdateField> {
           if (date != null) {
             final DateFormat formatter = DateFormat('MMM d, y');
             dateController.text = formatter.format(date);
-            StoreProvider.of<AppState>(context)
-                .dispatch(UpdateSignupBirthdateAction(date));
+            widget.updateBirthdate(date);
           }
         });
   }
 }
 
 class SelectSexDropdown extends StatefulWidget {
-  const SelectSexDropdown({Key? key}) : super(key: key);
+  final Function updateSex;
+  const SelectSexDropdown({Key? key, required this.updateSex})
+      : super(key: key);
 
   @override
   State<SelectSexDropdown> createState() => _SelectSexDropdownState();
@@ -174,8 +214,7 @@ class _SelectSexDropdownState extends State<SelectSexDropdown> {
           setState(() {
             _currentSex = newValue!;
           });
-          StoreProvider.of<AppState>(context)
-              .dispatch(UpdateSignupSexAction(newValue!));
+          widget.updateSex(newValue);
         },
         items: <String>['Male', 'Female', 'Prefer not to answer']
             .map<DropdownMenuItem<String>>((String value) {
@@ -188,7 +227,8 @@ class _SelectSexDropdownState extends State<SelectSexDropdown> {
 }
 
 class SelectEthnicityDropdown extends StatefulWidget {
-  const SelectEthnicityDropdown({Key? key}) : super(key: key);
+  final Function updateEthnicity;
+  const SelectEthnicityDropdown({Key? key, required this.updateEthnicity}) : super(key: key);
 
   @override
   State<SelectEthnicityDropdown> createState() =>
@@ -213,8 +253,9 @@ class _SelectEthnicityDropdownState extends State<SelectEthnicityDropdown> {
           setState(() {
             _currentEthnicity = newValue!;
           });
-          StoreProvider.of<AppState>(context)
-              .dispatch(UpdateSignupEthnicityAction(newValue!));
+          // StoreProvider.of<AppState>(context)
+          //     .dispatch(UpdateSignupEthnicityAction(newValue!));
+          widget.updateEthnicity(newValue);
         },
         items: <String>[
           'American Indian or Alaskan Native',

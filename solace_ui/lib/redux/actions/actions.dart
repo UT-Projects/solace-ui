@@ -12,54 +12,13 @@ class UpdateLoginPasswordAction {
   UpdateLoginPasswordAction(this.password);
 }
 
-class UpdateSignupEmailAction {
-  final String email;
-
-  UpdateSignupEmailAction(this.email);
-}
-
-class UpdateSignupPasswordAction {
-  final String password;
-
-  UpdateSignupPasswordAction(this.password);
-}
-
-class UpdateSignupFNameAction {
-  final String firstName;
-
-  UpdateSignupFNameAction(this.firstName);
-}
-
-class UpdateSignupLNameAction {
-  final String lastName;
-
-  UpdateSignupLNameAction(this.lastName);
-}
-
-class UpdateSignupBirthdateAction {
-  final DateTime birthdate;
-
-  UpdateSignupBirthdateAction(this.birthdate);
-}
-
-class UpdateSignupSexAction {
-  final String sex;
-
-  UpdateSignupSexAction(this.sex);
-}
-
-class UpdateSignupEthnicityAction {
-  final String ethnicity;
-
-  UpdateSignupEthnicityAction(this.ethnicity);
-}
-
 class CreateUserAction {
   final String firstName;
   final String lastName;
   final String email;
   final DateTime birthdate;
   final String sex;
+  final String ethnicity;
 
   CreateUserAction({
     required this.firstName,
@@ -67,9 +26,9 @@ class CreateUserAction {
     required this.email,
     required this.birthdate,
     required this.sex,
+    required this.ethnicity,
   });
 }
-
 
 class UpdateUserInfoSuccess {
   final UserInfo info;

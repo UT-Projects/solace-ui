@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:solace_ui/signup_screen_stateful.dart';
+import 'package:solace_ui/signup_screen.dart';
 // import "package:universal_html/html.dart";
 
 import 'login_screen.dart';

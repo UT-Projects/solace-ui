@@ -11,21 +11,31 @@ createPatient({dynamic action}) sync* {
   yield Try(() sync* {
     var res = Result();
     yield Call(api.createPatient,
-        args: [action.firstName + action.lastName, action.birthdate, action.email, action.sex],
+        args: [
+          action.firstName + action.lastName,
+          action.birthdate,
+          action.email,
+          action.sex
+        ],
         result: res);
     var uuid = res.value;
-    yield Put(UpdateUserInfoSuccess(
-      UserInfo(
-        uuid: uuid,
-        firstName: action.name,
-        lastName: action.name,
-        birthdate: action.birthdate,
-        email: action.email,
-        sex: action.sex,
-        ethnicity: ""),
-    ));
+    print(uuid);
+    yield Put(
+      UpdateUserInfoSuccess(
+        UserInfo(
+          uuid: uuid,
+          firstName: action.firstName,
+          lastName: action.lastName,
+          birthdate: action.birthdate,
+          email: action.email,
+          sex: action.sex,
+          ethnicity: action.ethnicity,
+        ),
+      ),
+    );
   }, Catch: (e, s) sync* {
-    yield Put(UpdateUserInfoFailure(e.message));
+    print(e);
+    //yield Put(UpdateUserInfoFailure(e.message));
   });
 }
 
@@ -34,8 +44,7 @@ updatePatient({dynamic action}) sync* {
     var info = Result();
     yield Call(api.getPatientInfo, args: [action.uuid], result: info);
     var user = info.value;
-    yield Put(UpdateUserInfoSuccess(
-      UserInfo(
+    yield Put(UpdateUserInfoSuccess(UserInfo(
         uuid: user.uuid,
         firstName: user.name,
         lastName: user.name,
