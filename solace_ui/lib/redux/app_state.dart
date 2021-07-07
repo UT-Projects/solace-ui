@@ -1,34 +1,14 @@
 class AppState {
-  final LoginInfo loginInfo;
   final UserInfo userInfo;
 
   factory AppState.initial() {
     return AppState(
-      loginInfo: LoginInfo.initial(),
       userInfo: UserInfo.initial(),
     );
   }
 
   AppState({
-    required this.loginInfo,
     required this.userInfo,
-  });
-}
-
-class LoginInfo {
-  final String email;
-  final String password;
-
-  factory LoginInfo.initial() {
-    return LoginInfo(
-      email: "",
-      password: "",
-    );
-  }
-
-  const LoginInfo({
-    required this.email,
-    required this.password,
   });
 }
 

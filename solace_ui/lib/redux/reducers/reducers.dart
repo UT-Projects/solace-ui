@@ -7,19 +7,9 @@ import 'package:redux/redux.dart';
 
 AppState appReducer(AppState state, action) {
   return AppState(
-    loginInfo: loginInfoReducer(state.loginInfo, action),
     userInfo: userInfoReducer(state.userInfo, action),
   );
 }
-
-LoginInfo loginInfoReducer(LoginInfo state, action) {
-  return LoginInfo(
-    email: loginEmailReducer(state.email, action),
-    password: loginPasswordReducer(state.password, action),
-  );
-}
-
-
 
 final userInfoReducer = combineReducers<UserInfo> ([
   TypedReducer<UserInfo, UpdateUserInfoSuccess>(
@@ -45,20 +35,3 @@ UserInfo _updateUserInfoSuccessReducer(UserInfo state, UpdateUserInfoSuccess act
 UserInfo _updateUserInfoFailureReducer(UserInfo state, UpdateUserInfoFailure action) {
   return state;
 } // Display failure message
-
-final loginEmailReducer = combineReducers<String>([
-  TypedReducer<String, UpdateLoginEmailAction>(_updateLoginEmailReducer),
-]);
-
-String _updateLoginEmailReducer(String state, UpdateLoginEmailAction action) {
-  return action.email;
-}
-
-final loginPasswordReducer = combineReducers<String>([
-  TypedReducer<String, UpdateLoginPasswordAction>(_updateLoginPasswordReducer),
-]);
-
-String _updateLoginPasswordReducer(
-    String state, UpdateLoginPasswordAction action) {
-  return action.password;
-}

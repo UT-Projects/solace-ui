@@ -1,9 +1,5 @@
-import "package:universal_html/html.dart" hide Navigator, Text;
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:redux_saga/redux_saga.dart';
 import 'package:solace_ui/redux/actions/actions.dart';
 import 'package:solace_ui/redux/app_state.dart';
 import 'package:intl/intl.dart';

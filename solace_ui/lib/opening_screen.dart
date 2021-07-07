@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solace_ui/navbar.dart';
 import 'package:solace_ui/signup_screen.dart';
 // import "package:universal_html/html.dart";
 
@@ -31,6 +32,14 @@ class OpeningScreen extends StatelessWidget {
               MaterialPageRoute(builder: (context) => SignupScreen())
             ),
             child: Text('New User'),
+          ),
+          SizedBox(height: 20,),
+          ElevatedButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NavBar())
+            ),
+            child: Text('Test - Nav Bar'),
           ),
         ],
       ),
