@@ -13,33 +13,82 @@ class _FindDoctorScreenState extends State<FindDoctorScreen> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
-      child: Center(
-        child: Column(children: [
-          Text(
-            "Find a Doctor",
-            style: TextStyle(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        child: Center(
+          child: Column(children: [
+            Text(
+              "Find a Doctor",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          SizedBox(height: 35),
-          Text(
-            "What are your symptoms?",
-            style: TextStyle(fontSize: 16),
-          ),
-          SizedBox(height: 15),
-          ElevatedButton(
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => OpeningScreen())),
-            child: Text("Choose your symptoms"),
-          ),
-          SizedBox(height: 125),
-          Text(
-            "Physician Preference",
-            style: TextStyle(fontSize: 16),
-          ),
-          // PhysicianPreference(), FIX
-        ]),
+            SizedBox(height: 35),
+            Text(
+              "What are your symptoms?",
+              style: TextStyle(fontSize: 15),
+            ),
+            SizedBox(height: 15),
+            ElevatedButton(
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => OpeningScreen())),
+              child: Text("Choose your symptoms"),
+            ),
+            SizedBox(height: 125),
+            Text(
+              "Physician Preference",
+              style: TextStyle(fontSize: 15),
+            ),
+            PhysicianPreference(),
+            SizedBox(height: 15),
+            Text("Any additional notes for your physician?",
+                style: TextStyle(fontSize: 15)),
+            SizedBox(height: 15),
+            Container(
+              height: 94,
+              child: Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  expands: true,
+                  maxLines: null,
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            Container(
+              height: 69,
+              child: Center(
+                child: Text(
+                  "If this is a Medical Emergency, please exit this app and call local medical authorities immediately.",
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              decoration: BoxDecoration(
+                color: Color(0xFFE79A65),
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              onPressed: () => {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => FindDoctorScreen())),
+              },
+              child: Text('Submit'),
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -65,19 +114,27 @@ class _PhysicianPreferenceState extends State<PhysicianPreference> {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
-      itemCount: buttonData.length,
-      itemBuilder: (BuildContext context, int index) {
-        return new InkWell(
-            splashColor: Colors.blueAccent,
-            onTap: () {
-              setState(() {
-                buttonData.forEach((element) => element.isSelected = false);
-                buttonData[index].isSelected = true;
-              });
-            },
-            child: new RadioItem(buttonData[index]));
-      },
+    return Container(
+      height: 110,
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: buttonData.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Material(
+            child: InkWell(
+              splashColor: Colors.blueAccent,
+              onTap: () {
+                setState(() {
+                  buttonData.forEach((element) => element.isSelected = false);
+                  buttonData[index].isSelected = true;
+                });
+              },
+              child: new RadioItem(buttonData[index]),
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -88,28 +145,28 @@ class RadioItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(15.0),
+      margin: EdgeInsets.all(10.0),
       child: Row(mainAxisSize: MainAxisSize.max, children: <Widget>[
         Container(
-          height: 50.0,
-          width: 50.0,
+          height: 71,
+          width: 85,
           child: Center(
             child: Text(
               _item.buttonText,
               style: TextStyle(
                 color: _item.isSelected ? Colors.white : Colors.black,
-                fontSize: 18.0,
+                fontSize: 15.0,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
           decoration: BoxDecoration(
-            color: _item.isSelected ? Colors.blueAccent : Colors.transparent,
-            border: Border.all(
-              width: 1.0,
-              color: _item.isSelected ? Colors.blueAccent : Colors.grey,
-            ),
-            borderRadius:  const BorderRadius.all(const Radius.circular(2.0))
-          ),
+              color: _item.isSelected ? Colors.blueAccent : Colors.transparent,
+              border: Border.all(
+                width: 1.0,
+                color: _item.isSelected ? Colors.blueAccent : Colors.grey,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(15))),
         ),
       ]),
     );
