@@ -36,14 +36,6 @@ class _NavBarState extends State<NavBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: BackButton(
-          color: Colors.black,
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(appBarTitle),
-      ),
       body: _widgets.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

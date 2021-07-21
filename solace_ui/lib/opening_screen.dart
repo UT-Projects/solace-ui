@@ -22,7 +22,7 @@ class OpeningScreen extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (context) => LoginScreen())
             ),
-              child: Text('Log In'),
+            child: Text('Log In'),
           ),
           SizedBox(height: 20,),
           ElevatedButton(

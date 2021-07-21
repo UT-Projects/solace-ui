@@ -42,10 +42,12 @@ class MyApp extends StatelessWidget {
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
               primary: Colors.white,
+              onPrimary: Color(0xFF00A1A1),
               minimumSize: Size(250, 51),
+              textStyle: TextStyle(fontSize: 24),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
-                side: BorderSide(color: Colors.grey),
+                side: BorderSide(color: Color(0xFF00A1A1)),
               ),
             ),
           ),

@@ -46,17 +46,15 @@ class _FindDoctorScreenState extends State<FindDoctorScreen> {
             SizedBox(height: 15),
             Container(
               height: 94,
-              child: Expanded(
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(),
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  expands: true,
-                  maxLines: null,
                 ),
+                expands: true,
+                maxLines: null,
               ),
             ),
             SizedBox(height: 15),
@@ -123,7 +121,7 @@ class _PhysicianPreferenceState extends State<PhysicianPreference> {
         itemBuilder: (BuildContext context, int index) {
           return Material(
             child: InkWell(
-              splashColor: Colors.blueAccent,
+              splashColor: Colors.white,
               onTap: () {
                 setState(() {
                   buttonData.forEach((element) => element.isSelected = false);
@@ -161,10 +159,10 @@ class RadioItem extends StatelessWidget {
             ),
           ),
           decoration: BoxDecoration(
-              color: _item.isSelected ? Colors.blueAccent : Colors.transparent,
+              color: _item.isSelected ? Color(0xFF80D7EB) : Colors.transparent,
               border: Border.all(
                 width: 1.0,
-                color: _item.isSelected ? Colors.blueAccent : Colors.grey,
+                color: _item.isSelected ? Color(0xFF80D7EB) : Colors.grey,
               ),
               borderRadius: BorderRadius.all(Radius.circular(15))),
         ),
