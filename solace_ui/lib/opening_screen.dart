@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solace_ui/custom_button.dart';
 import 'package:solace_ui/navbar.dart';
 import 'package:solace_ui/signup_screen.dart';
 
@@ -12,33 +13,33 @@ class OpeningScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container (
+          Container(
             height: 200,
             child: Image(image: AssetImage('lib/assets/slogo.jpg')),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.3,),
-          ElevatedButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LoginScreen())
-            ),
-            child: Text('Log In'),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.3,
           ),
-          SizedBox(height: 20,),
-          ElevatedButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SignupScreen())
-            ),
-            child: Text('New User'),
+          CustomButton(
+            text: "Log In",
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => LoginScreen())),
           ),
-          SizedBox(height: 20,),
-          ElevatedButton(
+          SizedBox(
+            height: 20,
+          ),
+          CustomButton(
+            text: "New User",
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SignupScreen())),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          CustomButton(
+            text: 'Test - Nav Bar',
             onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NavBar())
-            ),
-            child: Text('Test - Nav Bar'),
+                context, MaterialPageRoute(builder: (context) => NavBar())),
           ),
         ],
       ),

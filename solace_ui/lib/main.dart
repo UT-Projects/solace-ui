@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
               primary: Colors.white,
               onPrimary: Color(0xFF00A1A1),
               minimumSize: Size(250, 51),
-              textStyle: TextStyle(fontSize: 24),
+              textStyle: TextStyle(fontSize: 24, fontFamily: "SFPro"),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25),
                 side: BorderSide(color: Color(0xFF00A1A1)),
