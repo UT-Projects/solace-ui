@@ -43,3 +43,17 @@ class UserInfo {
     required this.ethnicity,
   });
 }
+
+class Symptoms {
+  final List<String> symptomList;
+
+  factory Symptoms.initial() {
+    return Symptoms(
+      symptomList: [],
+    );
+  }
+
+  const Symptoms({
+    required this.symptomList,
+  });
+}

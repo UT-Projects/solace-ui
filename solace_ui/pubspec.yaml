@@ -58,11 +58,15 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - lib/assets/
+    - lib/assets/symptoms.json
 
   fonts:
     - family: SFPro
       fonts:
-        - asset: lib/assets/fonts/SF-Pro-Text.otf
+        - asset: lib/assets/fonts/SF-Pro-Text-Regular.otf
+    - family: SFCompact
+      fonts:
+        - asset: lib/assets/fonts/SF-Compact-Display-Regular.otf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

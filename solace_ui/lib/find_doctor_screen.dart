@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:solace_ui/symptoms_screen.dart';
 import 'opening_screen.dart';
 
 class FindDoctorScreen extends StatefulWidget {
@@ -31,7 +32,7 @@ class _FindDoctorScreenState extends State<FindDoctorScreen> {
             SizedBox(height: 15),
             ElevatedButton(
               onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => OpeningScreen())),
+                  MaterialPageRoute(builder: (context) => SymptomsScreen())),
               child: Text("Choose your symptoms"),
             ),
             SizedBox(height: 125),

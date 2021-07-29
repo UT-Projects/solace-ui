@@ -1,22 +1,24 @@
 {
-    "headache": {
-        "name": "Headache",
-        "type": "Migraine",
-        "description": "Any pain in the head."
-    },
-    "reduced_vision": {
-        "name": "Reduced Vision",
-        "type": "Migraine Aura",
-        "description": "General Disturbance of one's eyesight which affects visual acuity, range of vision, or perception of light."
-    },
-    "aura_sensations": {
-        "name": "Aura Sensations",
-        "type": "Migraine Aura",
-        "description": "Sensory symptoms which appear before a migraine or seizure."
-    },
-    "hearing_difficulties": {
-        "name": "Hearing Difficulties",
-        "type": "Migraine Aura",
-        "description": "Difficulty hearing sounds clearly."
-    }
+    "symptoms": [
+        {
+            "name": "Headache",
+            "type": "Migraine",
+            "description": "Any pain in the head."
+        },
+        {
+            "name": "Reduced Vision",
+            "type": "Migraine Aura",
+            "description": "General Disturbance of one's eyesight which affects visual acuity, range of vision, or perception of light."
+        },
+        {
+            "name": "Aura Sensations",
+            "type": "Migraine Aura",
+            "description": "Sensory symptoms which appear before a migraine or seizure."
+        },
+        {
+            "name": "Hearing Difficulties",
+            "type": "Migraine Aura",
+            "description": "Difficulty hearing sounds clearly."
+        }
+    ]
 }
