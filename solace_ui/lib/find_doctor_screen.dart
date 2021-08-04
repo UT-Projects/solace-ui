@@ -17,6 +17,7 @@ class _FindDoctorScreenState extends State<FindDoctorScreen> {
       child: SingleChildScrollView(
         child: Center(
           child: Column(children: [
+            SizedBox(height: 35),
             Text(
               "Find a Doctor",
               style: TextStyle(
