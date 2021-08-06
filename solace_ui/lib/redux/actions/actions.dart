@@ -29,3 +29,15 @@ class UpdateUserInfoFailure {
 
   UpdateUserInfoFailure(this.message);
 }
+
+class AddSymptom {
+  final String symptom;
+
+  AddSymptom(this.symptom);
+}
+
+class RemoveSymptom {
+  final String symptom;
+
+  RemoveSymptom(this.symptom);
+}

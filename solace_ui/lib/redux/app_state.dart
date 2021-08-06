@@ -1,14 +1,17 @@
 class AppState {
   final UserInfo userInfo;
+  final Symptoms symptoms;
 
   factory AppState.initial() {
     return AppState(
       userInfo: UserInfo.initial(),
+      symptoms: Symptoms.initial(),
     );
   }
 
   AppState({
     required this.userInfo,
+    required this.symptoms,
   });
 }
 

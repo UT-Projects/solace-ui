@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:solace_ui/redux/actions/actions.dart';
+import 'package:solace_ui/redux/app_state.dart';
 
 class SymptomsScreen extends StatefulWidget {
   SymptomsScreen({Key? key}) : super(key: key);
@@ -69,7 +72,7 @@ class Symptom extends StatefulWidget {
 
 class _SymptomState extends State<Symptom> {
   TextEditingController desc = TextEditingController();
-  
+
   @override
   void initState() {
     super.initState();
@@ -80,66 +83,126 @@ class _SymptomState extends State<Symptom> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            widget.symptomInfo["name"],
-            style: TextStyle(
-              fontSize: 15,
-              fontFamily: "SFCompact",
-              color: Color(0xFF00A1A1),
-            ),
-          ),
-          Text(
-            widget.symptomInfo["type"],
-            style: TextStyle(
-              fontSize: 13,
-              fontFamily: "SFCompact",
-              color: Colors.black,
-            ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                  ),
-                  minLines: 3,
-                  maxLines: 3,
-                  readOnly: true,
-                  controller: desc,
+          Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.symptomInfo["name"],
                   style: TextStyle(
-                    fontSize: 9,
-                    fontFamily: "SFPro",
-                    color: Colors.black,
+                    fontSize: 15,
+                    fontFamily: "SFCompact",
+                    color: Color(0xFF00A1A1),
                   ),
                 ),
-              ),
-              OutlinedButton(
-                child: Text("Select"),
-                onPressed: () => print("HI"),
-                style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Color(0xFF80D7EB)),
-                  minimumSize: MaterialStateProperty.all(Size(93, 22)),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      side: BorderSide(color: Color(0xFF80D7EB)),
+                Text(
+                  widget.symptomInfo["type"],
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontFamily: "SFCompact",
+                    color: Color(0xFF979797),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                      border: InputBorder.none,
+                    ),
+                    minLines: 3,
+                    maxLines: 3,
+                    readOnly: true,
+                    controller: desc,
+                    style: TextStyle(
+                      fontSize: 9,
+                      fontFamily: "SFPro",
+                      color: Colors.black,
                     ),
                   ),
-                  splashFactory: NoSplash.splashFactory,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
+          SelectButton(symptom: widget.symptomInfo["name"]),
         ],
       ),
+    );
+  }
+}
+
+class SelectButton extends StatefulWidget {
+  final String symptom;
+
+  const SelectButton({Key? key, required this.symptom}) : super(key: key);
+
+  _SelectButtonState createState() => _SelectButtonState();
+}
+
+class _SelectButtonState extends State<SelectButton> {
+  bool selected = false;
+
+  Color getTextColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+
+    return selected || states.any(interactiveStates.contains)
+        ? Colors.white
+        : Color(0xFF80D7EB);
+  }
+
+  Color getButtonColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = <MaterialState>{
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+
+    return selected || states.any(interactiveStates.contains)
+        ? Color(0xFF80D7EB)
+        : Colors.white;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      child: Text(selected ? "Remove" : "Select",
+          style: TextStyle(
+            fontSize: 13,
+            fontFamily: "SFPro",
+          )),
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.resolveWith(getTextColor),
+        backgroundColor: MaterialStateProperty.resolveWith(getButtonColor),
+        minimumSize: MaterialStateProperty.all(Size(93, 22)),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+            side: BorderSide(color: Color(0xFF80D7EB)),
+          ),
+        ),
+        splashFactory: NoSplash.splashFactory,
+      ),
+      onPressed: () {
+        setState(() {
+          selected ^= true;
+          if (selected)
+            StoreProvider.of<AppState>(context)
+                .dispatch(AddSymptom(widget.symptom));
+          else
+            StoreProvider.of<AppState>(context)
+                .dispatch(RemoveSymptom(widget.symptom));
+        });
+      },
     );
   }
 }
