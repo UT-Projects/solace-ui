@@ -249,8 +249,6 @@ class _SelectEthnicityDropdownState extends State<SelectEthnicityDropdown> {
           setState(() {
             _currentEthnicity = newValue!;
           });
-          // StoreProvider.of<AppState>(context)
-          //     .dispatch(UpdateSignupEthnicityAction(newValue!));
           widget.updateEthnicity(newValue);
         },
         items: <String>[

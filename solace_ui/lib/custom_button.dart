@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
   final Function onPressed;
   final Color primColor;
   final Size size;
-  CustomButton({Key? key, required this.text, required this.onPressed, 
-  this.primColor = const Color(0xFF00A1A1), this.size = const Size(250, 51)})
+  final double fontSize;
+  final String fontFamily;
+  CustomButton(
+      {Key? key,
+      required this.text,
+      required this.onPressed,
+      this.primColor = const Color(0xFF00A1A1),
+      this.size = const Size(250, 51),
+      this.fontSize = 24,
+      this.fontFamily = "SFPro"})
       : super(key: key);
 
   Color getTextColor(Set<MaterialState> states) {
@@ -19,7 +26,7 @@ class CustomButton extends StatelessWidget {
 
     return states.any(interactiveStates.contains)
         ? Colors.white
-        : Color(0xFF00A1A1);
+        : primColor;
   }
 
   Color getButtonColor(Set<MaterialState> states) {
@@ -29,9 +36,7 @@ class CustomButton extends StatelessWidget {
       MaterialState.focused,
     };
 
-    return states.any(interactiveStates.contains)
-        ? primColor
-        : Colors.white;
+    return states.any(interactiveStates.contains) ? primColor : Colors.white;
   }
 
   @override
@@ -39,13 +44,13 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       child: Text(text,
           style: TextStyle(
-            fontSize: 24,
-            fontFamily: "SFPro",
+            fontSize: this.fontSize,
+            fontFamily: this.fontFamily,
           )),
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.resolveWith(getTextColor),
         backgroundColor: MaterialStateProperty.resolveWith(getButtonColor),
-        minimumSize: MaterialStateProperty.all(size),
+        fixedSize: MaterialStateProperty.all(size),
         elevation: MaterialStateProperty.all(2),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(

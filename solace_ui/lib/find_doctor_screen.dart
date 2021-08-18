@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:solace_ui/custom_button.dart';
+import 'package:solace_ui/redux/actions/actions.dart';
 import 'package:solace_ui/symptoms_screen.dart';
 import 'opening_screen.dart';
+import 'redux/app_state.dart';
 
 class FindDoctorScreen extends StatefulWidget {
   FindDoctorScreen({Key? key}) : super(key: key);
@@ -31,12 +35,18 @@ class _FindDoctorScreenState extends State<FindDoctorScreen> {
               style: TextStyle(fontSize: 15),
             ),
             SizedBox(height: 15),
-            ElevatedButton(
+            CustomButton(
+              text: "Choose your symptoms", 
               onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SymptomsScreen())),
-              child: Text("Choose your symptoms"),
+                MaterialPageRoute(builder: (context) => SymptomsScreen())),
+              primColor: Color(0xFF80D7EB),
+              size: Size(244, 36),
+              fontFamily: "SFCompact",
+              fontSize: 15,
             ),
-            SizedBox(height: 125),
+            SizedBox(height: 15),
+            SymptomListButtons(),
+            SizedBox(height: 40),
             Text(
               "Physician Preference",
               style: TextStyle(fontSize: 15),
@@ -80,14 +90,77 @@ class _FindDoctorScreenState extends State<FindDoctorScreen> {
             SizedBox(
               height: 20,
             ),
-            ElevatedButton(
+            CustomButton(
               onPressed: () => {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FindDoctorScreen())),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FindDoctorScreen())),
               },
-              child: Text('Submit'),
+              text: "Submit",
             ),
           ]),
+        ),
+      ),
+    );
+  }
+}
+
+class SymptomListButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, List<String>>(
+      converter: (store) => store.state.symptoms.symptomList.toList(),
+      builder: (BuildContext context, List<String> symptomList) {
+        return Container(
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+          child: Wrap(
+            runSpacing: 5,
+            spacing: 5,
+            direction: Axis.horizontal,
+            children: List<Widget>.generate(symptomList.length, (index) => 
+              SymptomButton(symptomList[index])),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class SymptomButton extends StatelessWidget {
+  final String symptom;
+  SymptomButton(this.symptom);
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      child: Container(
+        height: 27,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Container(
+          padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+          child: Row(
+            children: [
+              Text(
+                symptom,
+                style: TextStyle(fontSize: 14, fontFamily: "SFPro"),
+              ),
+              Container(
+                width: 25,
+                child: TextButton(
+                  onPressed: () => StoreProvider.of<AppState>(context).dispatch(RemoveSymptom(symptom)),
+                  child: Icon(
+                    Icons.cancel_outlined,
+                    color: Color(0xFFE79A65),
+                    size: 20,
+                  )
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

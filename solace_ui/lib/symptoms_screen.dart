@@ -113,7 +113,8 @@ class _SymptomState extends State<Symptom> {
                   child: TextField(
                     decoration: InputDecoration(
                       isDense: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 0, vertical: 5),
                       border: InputBorder.none,
                     ),
                     minLines: 3,
@@ -174,34 +175,40 @@ class _SelectButtonState extends State<SelectButton> {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
-      child: Text(selected ? "Remove" : "Select",
-          style: TextStyle(
-            fontSize: 13,
-            fontFamily: "SFPro",
-          )),
-      style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.resolveWith(getTextColor),
-        backgroundColor: MaterialStateProperty.resolveWith(getButtonColor),
-        minimumSize: MaterialStateProperty.all(Size(93, 22)),
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
-            side: BorderSide(color: Color(0xFF80D7EB)),
+    return StoreConnector<AppState, bool>(
+      converter: (store) =>
+          store.state.symptoms.symptomList.contains(widget.symptom),
+      builder: (BuildContext context, bool isSelected) {
+        selected = isSelected;
+        return OutlinedButton(
+          child: Text(isSelected ? "Remove" : "Select",
+              style: TextStyle(
+                fontSize: 13,
+                fontFamily: "SFPro",
+              )),
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.resolveWith(getTextColor),
+            backgroundColor: MaterialStateProperty.resolveWith(getButtonColor),
+            minimumSize: MaterialStateProperty.all(Size(93, 22)),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25),
+                side: BorderSide(color: Color(0xFF80D7EB)),
+              ),
+            ),
+            splashFactory: NoSplash.splashFactory,
           ),
-        ),
-        splashFactory: NoSplash.splashFactory,
-      ),
-      onPressed: () {
-        setState(() {
-          selected ^= true;
-          if (selected)
-            StoreProvider.of<AppState>(context)
-                .dispatch(AddSymptom(widget.symptom));
-          else
-            StoreProvider.of<AppState>(context)
-                .dispatch(RemoveSymptom(widget.symptom));
-        });
+          onPressed: () {
+            setState(() {
+              if (isSelected)
+                StoreProvider.of<AppState>(context)
+                    .dispatch(RemoveSymptom(widget.symptom));
+              else
+                StoreProvider.of<AppState>(context)
+                    .dispatch(AddSymptom(widget.symptom));
+            });
+          },
+        );
       },
     );
   }

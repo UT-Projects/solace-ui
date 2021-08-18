@@ -43,19 +43,19 @@ final symptomsReducer = combineReducers<Symptoms>({
 });
 
 Symptoms _addSymptomReducer(Symptoms state, AddSymptom action) {
-  print(state.symptomList.join('\n'));
-
+  
+  Set<String> newSymptomList = Set.of(state.symptomList);
+  newSymptomList.add(action.symptom);
   return Symptoms(
-      symptomList: []
-        ..addAll(state.symptomList)
-        ..add(action.symptom));
+    symptomList: newSymptomList,
+  );
 }
 
 Symptoms _removeSymptomReducer(Symptoms state, RemoveSymptom action) {
-  print(state.symptomList.join('\n'));
 
+  Set<String> newSymptomList = Set.of(state.symptomList);
+  newSymptomList.remove(action.symptom);
   return Symptoms(
-      symptomList: state.symptomList
-          .where((symptom) => symptom != action.symptom)
-          .toList());
+    symptomList: newSymptomList,
+  );
 }

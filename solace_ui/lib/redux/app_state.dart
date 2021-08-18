@@ -48,11 +48,11 @@ class UserInfo {
 }
 
 class Symptoms {
-  final List<String> symptomList;
+  final Set<String> symptomList;
 
   factory Symptoms.initial() {
     return Symptoms(
-      symptomList: [],
+      symptomList: Set(),
     );
   }
 
