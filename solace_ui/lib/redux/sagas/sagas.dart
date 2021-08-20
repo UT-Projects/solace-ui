@@ -7,6 +7,17 @@ mySaga() sync* {
   yield TakeEvery(createPatient, pattern: CreateUserAction);
 }
 
+loadPatient({dynamic action}) sync* {
+  yield Try(() sync* {
+    var info = Result();
+    yield Call(api.getPatientInfo, args: [action.uuid], result: info);
+    var user = info.value;
+    // Now what?
+  }, Catch: (e, s) sync* {
+    print(e);
+  });
+}
+
 createPatient({dynamic action}) sync* {
   yield Try(() sync* {
     var res = Result();

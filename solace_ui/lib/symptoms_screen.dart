@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:solace_ui/redux/actions/actions.dart';
@@ -15,6 +14,8 @@ class SymptomsScreen extends StatefulWidget {
 
 class _SymptomsScreenState extends State<SymptomsScreen> {
   List _symptoms = [];
+  List _chosenSymptoms = [];
+  String _prevText = "";
 
   Future<void> readJson() async {
     final String response =
@@ -22,6 +23,34 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
     final data = await json.decode(response);
     setState(() {
       _symptoms = data["symptoms"];
+      _chosenSymptoms = List.from(_symptoms);
+    });
+  }
+
+  void updateChosenSymptoms(String searchText) {
+    searchText = searchText.toLowerCase();
+    setState(() {
+      List initSymptoms = _chosenSymptoms;
+      if (searchText.length <= _prevText.length) {
+        _chosenSymptoms = [];
+        initSymptoms = _symptoms;
+      }
+
+      _chosenSymptoms = initSymptoms
+          .where((symptom) =>
+              symptom["name"].toString().toLowerCase().contains(searchText) ||
+              symptom["type"].toString().toLowerCase().contains(searchText) ||
+              symptom["description"].toString().toLowerCase().contains(searchText))
+          .toList();
+
+      // print("---------------");
+      // print(searchText);
+      // for (dynamic symptom in _symptoms) print(symptom);
+      // print("--");
+      // for (dynamic symptom in _chosenSymptoms) print(symptom);
+      // print("---------------");
+
+      _prevText = searchText;
     });
   }
 
@@ -43,19 +72,53 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
         elevation: 0,
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-        child: ListView.builder(
-          addRepaintBoundaries: true,
-          scrollDirection: Axis.vertical,
-          itemCount: _symptoms.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Column(children: [
-              Divider(
-                thickness: 1,
+        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+        child: Column(
+          children: [
+            Text(
+              "Symptoms",
+              style: TextStyle(
+                fontFamily: "SFCompact",
+                fontSize: 24,
               ),
-              Symptom(symptomInfo: _symptoms[index]),
-            ]);
-          },
+            ),
+            SizedBox(height: 15),
+            Container(
+              height: 30,
+              width: 295,
+              child: TextField(
+                style: TextStyle(
+                  fontFamily: "SFCompact",
+                  fontSize: 13,
+                ),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  hintText: "Search Symptoms",
+                ),
+                onChanged: (text) => updateChosenSymptoms(text),
+              ),
+            ),
+            SizedBox(height: 15),
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
+              child: ListView.builder(
+                shrinkWrap: true,
+                addRepaintBoundaries: true,
+                scrollDirection: Axis.vertical,
+                itemCount: _chosenSymptoms.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(children: [
+                    Divider(
+                      thickness: 1,
+                    ),
+                    Symptom(symptomInfo: _chosenSymptoms[index]),
+                  ]);
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -80,7 +143,14 @@ class _SymptomState extends State<Symptom> {
   }
 
   @override
+  void dispose() {
+    desc.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    desc.text = widget.symptomInfo["description"];
     return Container(
       padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
       child: Row(
