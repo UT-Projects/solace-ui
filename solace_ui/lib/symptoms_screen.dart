@@ -43,13 +43,6 @@ class _SymptomsScreenState extends State<SymptomsScreen> {
               symptom["description"].toString().toLowerCase().contains(searchText))
           .toList();
 
-      // print("---------------");
-      // print(searchText);
-      // for (dynamic symptom in _symptoms) print(symptom);
-      // print("--");
-      // for (dynamic symptom in _chosenSymptoms) print(symptom);
-      // print("---------------");
-
       _prevText = searchText;
     });
   }

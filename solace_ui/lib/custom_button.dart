@@ -52,7 +52,7 @@ class CustomButton extends StatelessWidget {
         backgroundColor: MaterialStateProperty.resolveWith(getButtonColor),
         fixedSize: MaterialStateProperty.all(size),
         elevation: MaterialStateProperty.all(2),
-        shape: MaterialStateProperty.all(
+        shape: MaterialStateProperty.all( 
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25),
             side: BorderSide(color: primColor),

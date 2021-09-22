@@ -4,6 +4,8 @@ import 'package:solace_ui/redux/actions/actions.dart';
 import 'package:solace_ui/redux/app_state.dart';
 import 'package:intl/intl.dart';
 
+import 'navbar.dart';
+
 class SignupScreen extends StatefulWidget {
   SignupScreen({Key? key}) : super(key: key);
 
@@ -124,7 +126,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ElevatedButton(
                 onPressed: () => {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignupScreen())),
+                      MaterialPageRoute(builder: (context) => NavBar())),
                   StoreProvider.of<AppState>(context).dispatch(CreateUserAction(
                     firstName: firstName, lastName: lastName, email: email, 
                     birthdate: birthdate, sex: sex, ethnicity: ethnicity)),
